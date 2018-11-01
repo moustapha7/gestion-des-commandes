@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Gestion des Commandes</string>
+    <string name="connection">Connection</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="inscription">Inscription</string>
+    <string name="email">phata700@gmail.com</string>
+    <string name="formation">Formation</string>
+    <string name="mark">Mark</string>
+    <string name="university">University</string>
+    <string name="help">Help</string>
+    <string name="cancel">Cancel</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="degrees">Degrees</string>
+    <string name="o_level">O Level</string>
+    <string name="master">Master</string>
+    <string name="save">Save</string>
+    <string name="add_user">Add User</string>
+    <string name="update_user">Update User</string>
+    <string name="delete_user">Delete User</string>
+    <string name="list_user">List User</string>
+    <string name="welcome">Welcome</string>
+    <string name="wait">Pleaz wait ...</string>
+    <string name="error_field">Field required</string>
+    <string name="error_parameters">Error parameters ...</string>
+    <string name="error_connection">Error connection ...</string>
+    <string name="error_save">Error Save ...</string>
+    <string name="error_update">Error Update ...</string>
+    <string name="error_delete">Error Delete ...</string>
+    <string name="succes_save">Succes Save ...</string>
+    <string name="succes_update">Succes Update ...</string>
+    <string name="succes_delete">succes Delete ...</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_accueil">Accueil</string>
+
+
+</resources>

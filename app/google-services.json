@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "644095219774",
+    "firebase_url": "https://gestiondescommandes-a29f5.firebaseio.com",
+    "project_id": "gestiondescommandes-a29f5",
+    "storage_bucket": "gestiondescommandes-a29f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644095219774:android:2d16b87ff7dd2493",
+        "android_client_info": {
+          "package_name": "com.example.moustapha.gestiondescommandes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "644095219774-9iuskhfqb9sj8dunp7doi5filk7taprv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDykR4H-obje2ISyeZZXNkiUjbOW3NwY1w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
