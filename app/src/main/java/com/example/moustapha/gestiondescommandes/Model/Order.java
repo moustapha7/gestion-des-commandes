@@ -4,13 +4,12 @@ package com.example.moustapha.gestiondescommandes.Model;
  * Created by moustapha on 03/08/18.
  */
 
-public class Order
-{
+public class Order {
     private String ProductId;
     private String ProductName;
     private String Quantity;
     private String Prix;
-    private String  Discount;
+    private String Discount;
 
     public Order() {
 

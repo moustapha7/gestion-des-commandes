@@ -1,7 +1,7 @@
 package com.example.moustapha.gestiondescommandes;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -19,7 +19,7 @@ public class OrderStatus extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference requests;
-    FirebaseRecyclerAdapter<Request,OrderViewHolder> adapter;
+    FirebaseRecyclerAdapter<Request, OrderViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,24 +29,21 @@ public class OrderStatus extends AppCompatActivity {
 
         //Firebase
 
-        database =FirebaseDatabase.getInstance();
-        requests= database.getReference("Requests");
+        database = FirebaseDatabase.getInstance();
+        requests = database.getReference("Requests");
 
-        recyclerView=(RecyclerView)findViewById(R.id.listOrders);
+        recyclerView = (RecyclerView) findViewById(R.id.listOrders);
         recyclerView.setHasFixedSize(true);
-        layoutManager= new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         loadOrders(Common.currentUser.getLogin());
 
 
-
-
     }
 
-    private void loadOrders(String login)
-    {
-        adapter =new FirebaseRecyclerAdapter<Request, OrderViewHolder>(
+    private void loadOrders(String login) {
+        adapter = new FirebaseRecyclerAdapter<Request, OrderViewHolder>(
 
                 Request.class,
                 R.layout.order_layout,
@@ -54,11 +51,9 @@ public class OrderStatus extends AppCompatActivity {
                 requests.orderByChild("login").equalTo(login)
 
 
-        )
-        {
-        @Override
-            protected void populateViewHolder(OrderViewHolder viewHolder, Request model, int position)
-            {
+        ) {
+            @Override
+            protected void populateViewHolder(OrderViewHolder viewHolder, Request model, int position) {
 
                 viewHolder.txtOrderId.setText(adapter.getRef(position).getKey());
                 viewHolder.txtOrderStatus.setText(convetCodeToStatus(model.getStatus()));
@@ -70,8 +65,7 @@ public class OrderStatus extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private String convetCodeToStatus(String status)
-    {
+    private String convetCodeToStatus(String status) {
         if (status.equals("0"))
             return "Commandé";
         else if (status.equals("1"))

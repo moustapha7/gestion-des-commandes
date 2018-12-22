@@ -11,20 +11,19 @@ import com.example.moustapha.gestiondescommandes.R;
  * Created by moustapha on 07/08/18.
  */
 
-public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-{
+public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txtOrderId,txtOrderStatus,txtOrderPhone,txtOrderAddress;
+    public TextView txtOrderId, txtOrderStatus, txtOrderPhone, txtOrderAddress;
 
     private ItemClickListener itemClickListener;
 
     public OrderViewHolder(View itemView) {
         super(itemView);
 
-        txtOrderAddress =(TextView)itemView.findViewById(R.id.order_address);
-        txtOrderStatus =(TextView)itemView.findViewById(R.id.order_status);
-        txtOrderId =(TextView)itemView.findViewById(R.id.order_id);
-        txtOrderPhone =(TextView)itemView.findViewById(R.id.order_phone);
+        txtOrderAddress = (TextView) itemView.findViewById(R.id.order_address);
+        txtOrderStatus = (TextView) itemView.findViewById(R.id.order_status);
+        txtOrderId = (TextView) itemView.findViewById(R.id.order_id);
+        txtOrderPhone = (TextView) itemView.findViewById(R.id.order_phone);
 
         itemView.setOnClickListener(this);
     }
@@ -34,9 +33,8 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
     }
 
     @Override
-    public void onClick(View v)
-    {
-        itemClickListener.onClick(v,getAdapterPosition(),false);
+    public void onClick(View v) {
+        itemClickListener.onClick(v, getAdapterPosition(), false);
 
 
     }

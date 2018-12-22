@@ -4,23 +4,20 @@ package com.example.moustapha.gestiondescommandes.Model;
  * Created by moustapha on 01/08/18.
  */
 
-public class User
-{
+public class User {
     private String login;
-    private  String password;
+    private String password;
 
 
-    public User()
-    {
+    public User() {
 
     }
 
-    public User(String log, String pwd)
-    {
+    public User(String log, String pwd) {
 
-        login= log;
+        login = log;
 
-        password=pwd;
+        password = pwd;
 
     }
 
@@ -39,7 +36,6 @@ public class User
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 
 }

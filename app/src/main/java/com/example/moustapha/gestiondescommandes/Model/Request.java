@@ -6,8 +6,7 @@ import java.util.List;
  * Created by moustapha on 03/08/18.
  */
 
-public class Request
-{
+public class Request {
     private String phone;
     private String address;
     private String total;
@@ -15,8 +14,7 @@ public class Request
     private String status;
     private List<Order> produits; //list des produits par ordre
 
-    public Request()
-    {
+    public Request() {
 
     }
 
@@ -27,12 +25,11 @@ public class Request
         this.total = total;
         this.name = name;
         this.produits = produits;
-        this.status="0";
+        this.status = "0";
 
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
         return status;
     }
 

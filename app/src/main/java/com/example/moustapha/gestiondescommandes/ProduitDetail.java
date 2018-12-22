@@ -1,10 +1,10 @@
 package com.example.moustapha.gestiondescommandes;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,14 +23,14 @@ import com.squareup.picasso.Picasso;
 
 public class ProduitDetail extends AppCompatActivity {
 
-    TextView produit_name,produit_prix,produit_description;
+    TextView produit_name, produit_prix, produit_description;
     ImageView produit_image;
 
     CollapsingToolbarLayout collapsingToolbarLayout;
     FloatingActionButton btnCart;
     ElegantNumberButton numberButton;
 
-    String ProduitId="";
+    String ProduitId = "";
     FirebaseDatabase database;
     DatabaseReference produits;
 
@@ -43,64 +43,58 @@ public class ProduitDetail extends AppCompatActivity {
 
 
         //firebase
-        database= FirebaseDatabase.getInstance();
-        produits =database.getReference("Produit");
+        database = FirebaseDatabase.getInstance();
+        produits = database.getReference("Produit");
 
         //init view
 
-       numberButton = (ElegantNumberButton)findViewById(R.id.number_button);
-       btnCart=(FloatingActionButton)findViewById(R.id.btnCart);
+        numberButton = (ElegantNumberButton) findViewById(R.id.number_button);
+        btnCart = (FloatingActionButton) findViewById(R.id.btnCart);
 
 
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Database(getBaseContext()).addToCart(new Order
+                        (
+                                ProduitId,
+                                currentProduit.getName(),
+                                numberButton.getNumber(),
+                                currentProduit.getPrix(),
+                                currentProduit.getNombre()
 
-       btnCart.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               new Database(getBaseContext()).addToCart(new Order
-                       (
-                       ProduitId,
-                       currentProduit.getName(),
-                       numberButton.getNumber(),
-                       currentProduit.getPrix(),
-                       currentProduit.getNombre()
-
-               ));
-               Toast.makeText(ProduitDetail.this, "Produit ajoué au Panier", Toast.LENGTH_SHORT).show();
-           }
-       });
-
+                        ));
+                Toast.makeText(ProduitDetail.this, "Produit ajoué au Panier", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
+        produit_description = (TextView) findViewById(R.id.produit_descritpion);
+        produit_name = (TextView) findViewById(R.id.produit_name);
+        produit_prix = (TextView) findViewById(R.id.produit_prix);
 
+        produit_image = (ImageView) findViewById(R.id.img_produit);
 
-       produit_description= (TextView)findViewById(R.id.produit_descritpion);
-        produit_name= (TextView)findViewById(R.id.produit_name);
-        produit_prix= (TextView)findViewById(R.id.produit_prix);
-
-        produit_image= (ImageView) findViewById(R.id.img_produit);
-
-        collapsingToolbarLayout =(CollapsingToolbarLayout)findViewById(R.id.collapsing);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.collapsedAppbar);
 
 
         //obtenir les produits à partir de l'intent
-        if(getIntent() !=null)
-            ProduitId =getIntent().getStringExtra("ProduitId");
+        if (getIntent() != null)
+            ProduitId = getIntent().getStringExtra("ProduitId");
 
-        if(!ProduitId.isEmpty())
-        {
+        if (!ProduitId.isEmpty()) {
             gettDetailProduit(ProduitId);
         }
     }
 
-    private void gettDetailProduit(String ProduitId)
-    {
+    private void gettDetailProduit(String ProduitId) {
         produits.child(ProduitId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                currentProduit =dataSnapshot.getValue(Produit.class);
+                currentProduit = dataSnapshot.getValue(Produit.class);
 
                 //set image
 
@@ -108,7 +102,6 @@ public class ProduitDetail extends AppCompatActivity {
                         .into(produit_image);
 
                 collapsingToolbarLayout.setTitle(currentProduit.getName());
-
 
 
                 produit_prix.setText(currentProduit.getPrix());

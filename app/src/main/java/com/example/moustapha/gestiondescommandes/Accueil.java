@@ -3,25 +3,22 @@ package com.example.moustapha.gestiondescommandes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.moustapha.gestiondescommandes.Common.Common;
 import com.example.moustapha.gestiondescommandes.Interface.ItemClickListener;
 import com.example.moustapha.gestiondescommandes.Model.Category;
-import com.example.moustapha.gestiondescommandes.Model.Produit;
 import com.example.moustapha.gestiondescommandes.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -40,7 +37,7 @@ public class Accueil extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
 
 
-    FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter;
+    FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +49,11 @@ public class Accueil extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-
-
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent cartIntent =new Intent(Accueil.this,Cart.class);
+                Intent cartIntent = new Intent(Accueil.this, Cart.class);
                 startActivity(cartIntent);
             }
         });
@@ -76,8 +69,8 @@ public class Accueil extends AppCompatActivity
 
 
         //Set name for user : recuperer le nom du user connecté
-        View headerView=navigationView.getHeaderView(0);
-        txtFullName= (TextView) headerView.findViewById(R.id.txtFullName);
+        View headerView = navigationView.getHeaderView(0);
+        txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
         txtFullName.setText(Common.currentUser.getLogin());
 
 
@@ -87,7 +80,7 @@ public class Accueil extends AppCompatActivity
 
         // charger le menu
 
-        recycl_menu = (RecyclerView)findViewById(R.id.recycler_menu);
+        recycl_menu = (RecyclerView) findViewById(R.id.recycler_menu);
         recycl_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycl_menu.setLayoutManager(layoutManager);
@@ -95,14 +88,11 @@ public class Accueil extends AppCompatActivity
         loadMenu();
 
 
-
     }
 
 
-    public void loadMenu()
-    {
-        adapter=new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,category)
-        {
+    public void loadMenu() {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
 
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
@@ -111,24 +101,23 @@ public class Accueil extends AppCompatActivity
                 Picasso.with(getBaseContext()).load(model.getImage())
                         .into(viewHolder.imageView);
 
-                final Category clickItem= model;
+                final Category clickItem = model;
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
-                    public void onClick(View view,int position, boolean isLongClick)
-                    {
+                    public void onClick(View view, int position, boolean isLongClick) {
                         //Obtenir category id et envoyer dans une new activity
-                        Intent proList = new Intent(Accueil.this,ProduitListe.class);
+                        Intent proList = new Intent(Accueil.this, ProduitListe.class);
 
 
                         //CategoryId est une cle
-                        proList.putExtra("CategoryId",adapter.getRef(position).getKey());
+                        proList.putExtra("CategoryId", adapter.getRef(position).getKey());
                         startActivity(proList);
                     }
                 });
 
             }
-        } ;
-       recycl_menu.setAdapter(adapter);
+        };
+        recycl_menu.setAdapter(adapter);
 
 
     }
@@ -172,34 +161,24 @@ public class Accueil extends AppCompatActivity
         int id = item.getItemId();
 
 
-       if (id == R.id.nav_produitListe)
-        {
+        if (id == R.id.nav_produitListe) {
 
-            Intent lp = new Intent(Accueil.this,ProduitListe.class);
+            Intent lp = new Intent(Accueil.this, ProduitListe.class);
             startActivity(lp);
-        }
+        } else if (id == R.id.nav_carts) {
 
-
-       else  if (id == R.id.nav_carts)
-        {
-
-            Intent car = new Intent(Accueil.this,Cart.class);
+            Intent car = new Intent(Accueil.this, Cart.class);
             startActivity(car);
+        } else if (id == R.id.nav_orders) {
+
+            Intent orst = new Intent(Accueil.this, OrderStatus.class);
+            startActivity(orst);
+        } else if (id == R.id.nav_logout) {
+            Intent dec = new Intent(Accueil.this, SignIn.class);
+            dec.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(dec);
+
         }
-       else  if (id == R.id.nav_orders)
-       {
-
-           Intent orst = new Intent(Accueil.this,OrderStatus.class);
-           startActivity(orst);
-       }
-
-       else  if (id == R.id.nav_logout)
-       {
-           Intent dec = new Intent(Accueil.this,SignIn.class);
-           dec.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP);
-           startActivity(dec);
-
-       }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -4,8 +4,7 @@ package com.example.moustapha.gestiondescommandes.Model;
  * Created by moustapha on 01/08/18.
  */
 
-public class Produit
-{
+public class Produit {
     private String Name;
     private String Image;
     private String Description;

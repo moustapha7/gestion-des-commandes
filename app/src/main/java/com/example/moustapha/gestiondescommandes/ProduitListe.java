@@ -1,16 +1,15 @@
 package com.example.moustapha.gestiondescommandes;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.moustapha.gestiondescommandes.Interface.ItemClickListener;
 import com.example.moustapha.gestiondescommandes.Model.Produit;
@@ -24,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,14 +33,14 @@ public class ProduitListe extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference produitListe;
 
-    String categoryId="";
+    String categoryId = "";
 
-    FirebaseRecyclerAdapter<Produit,ProduitViewHolder> adapter;
+    FirebaseRecyclerAdapter<Produit, ProduitViewHolder> adapter;
 
 
     //Fonction recherche
 
-    FirebaseRecyclerAdapter<Produit,ProduitViewHolder> searchAdapter;
+    FirebaseRecyclerAdapter<Produit, ProduitViewHolder> searchAdapter;
     List<String> suggestList = new ArrayList<>();
     MaterialSearchBar materialSearchBar;
 
@@ -54,28 +52,26 @@ public class ProduitListe extends AppCompatActivity {
 
         //Firebase
 
-        database= FirebaseDatabase.getInstance();
-        produitListe= database.getReference("Produit");
+        database = FirebaseDatabase.getInstance();
+        produitListe = database.getReference("Produit");
 
-        recyclerView= (RecyclerView)findViewById(R.id.recycler_produit);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_produit);
 
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         //obtenir l'intent cliqué pour le produit
-        if(getIntent() !=null)
-            categoryId=getIntent().getStringExtra("CategoryId");
-        if(!categoryId.isEmpty() && categoryId !=null)
-        {
+        if (getIntent() != null)
+            categoryId = getIntent().getStringExtra("CategoryId");
+        if (!categoryId.isEmpty() && categoryId != null) {
             loadListProduit(categoryId);
         }
 
 
-
         //fonctionnalités de recherches
 
-        materialSearchBar= (MaterialSearchBar)findViewById(R.id.searchBar);
+        materialSearchBar = (MaterialSearchBar) findViewById(R.id.searchBar);
         materialSearchBar.setHint("Saisir le produit");
 
         loadSuggest();  //charger la suggestion au niveau de firebase
@@ -92,10 +88,9 @@ public class ProduitListe extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-                List<String> suggest =new ArrayList<>();
-                for (String search:suggestList)
-                {
-                    if(search.toLowerCase().contains(materialSearchBar.getText().toLowerCase()))
+                List<String> suggest = new ArrayList<>();
+                for (String search : suggestList) {
+                    if (search.toLowerCase().contains(materialSearchBar.getText().toLowerCase()))
                         suggest.add(search);
                 }
 
@@ -127,39 +122,33 @@ public class ProduitListe extends AppCompatActivity {
         });
 
 
-
     }
 
-    private void startSearch(CharSequence text)
-    {
-        searchAdapter=new FirebaseRecyclerAdapter<Produit, ProduitViewHolder>(
+    private void startSearch(CharSequence text) {
+        searchAdapter = new FirebaseRecyclerAdapter<Produit, ProduitViewHolder>(
 
-                        Produit.class,
-                        R.layout.produit_item,
-                        ProduitViewHolder.class,
-                        produitListe.orderByChild("Name").equalTo(text.toString())
-
-
+                Produit.class,
+                R.layout.produit_item,
+                ProduitViewHolder.class,
+                produitListe.orderByChild("Name").equalTo(text.toString())
 
 
         ) {
             @Override
-            protected void populateViewHolder(ProduitViewHolder viewHolder, Produit model, int position)
-            {
+            protected void populateViewHolder(ProduitViewHolder viewHolder, Produit model, int position) {
 
                 viewHolder.produit_name.setText(model.getName());
                 Picasso.with(getBaseContext()).load(model.getImage()).into(viewHolder.produit_image);
 
-                final Produit local=model;
+                final Produit local = model;
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
-                    public void onClick(View viex, int position, boolean isLongClick)
-                    {
-                        Intent proDetail = new Intent(ProduitListe.this,ProduitDetail.class);
+                    public void onClick(View viex, int position, boolean isLongClick) {
+                        Intent proDetail = new Intent(ProduitListe.this, ProduitDetail.class);
 
 
                         //CategoryId est une cle
-                        proDetail.putExtra("ProduitId",adapter.getRef(position).getKey());
+                        proDetail.putExtra("ProduitId", adapter.getRef(position).getKey());
                         startActivity(proDetail);
                     }
                 });
@@ -169,16 +158,14 @@ public class ProduitListe extends AppCompatActivity {
         recyclerView.setAdapter(searchAdapter);
     }
 
-    private void loadSuggest()
-    {
+    private void loadSuggest() {
         produitListe.orderByChild("MenuId").equalTo(categoryId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        for(DataSnapshot postSnapshot:dataSnapshot.getChildren())
-                        {
-                            Produit item=postSnapshot.getValue(Produit.class);
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                            Produit item = postSnapshot.getValue(Produit.class);
                             suggestList.add(item.getName()); //ajouter le nom du produit suggéré
 
                         }
@@ -191,28 +178,25 @@ public class ProduitListe extends AppCompatActivity {
                 });
     }
 
-    private void loadListProduit(String categoryId)
-    {
-        adapter=new FirebaseRecyclerAdapter<Produit, ProduitViewHolder>(Produit.class,
-                R.layout.produit_item,ProduitViewHolder.class,
-                    produitListe.orderByChild("MenuId").equalTo(categoryId)) // select *from produit where MenuId=
+    private void loadListProduit(String categoryId) {
+        adapter = new FirebaseRecyclerAdapter<Produit, ProduitViewHolder>(Produit.class,
+                R.layout.produit_item, ProduitViewHolder.class,
+                produitListe.orderByChild("MenuId").equalTo(categoryId)) // select *from produit where MenuId=
         {
             @Override
-            protected void populateViewHolder(ProduitViewHolder viewHolder, Produit model, int position)
-            {
+            protected void populateViewHolder(ProduitViewHolder viewHolder, Produit model, int position) {
                 viewHolder.produit_name.setText(model.getName());
                 Picasso.with(getBaseContext()).load(model.getImage()).into(viewHolder.produit_image);
 
-                final Produit local=model;
+                final Produit local = model;
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
-                    public void onClick(View viex, int position, boolean isLongClick)
-                    {
-                        Intent proDetail = new Intent(ProduitListe.this,ProduitDetail.class);
+                    public void onClick(View viex, int position, boolean isLongClick) {
+                        Intent proDetail = new Intent(ProduitListe.this, ProduitDetail.class);
 
 
                         //CategoryId est une cle
-                        proDetail.putExtra("ProduitId",adapter.getRef(position).getKey());
+                        proDetail.putExtra("ProduitId", adapter.getRef(position).getKey());
                         startActivity(proDetail);
                     }
                 });
@@ -221,7 +205,7 @@ public class ProduitListe extends AppCompatActivity {
         };
 
         //Set Adapter
-        Log.d("TAG",""+adapter.getItemCount());
+        Log.d("TAG", "" + adapter.getItemCount());
         recyclerView.setAdapter(adapter);
     }
 }

@@ -1,10 +1,9 @@
 package com.example.moustapha.gestiondescommandes;
 
 import android.content.DialogInterface;
-import android.speech.tts.TextToSpeech;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,7 +38,7 @@ public class Cart extends AppCompatActivity {
     Button btnPlace;
 
 
-    List<Order> carte =new ArrayList<>();
+    List<Order> carte = new ArrayList<>();
     CartAdapter adapter;
 
     @Override
@@ -49,18 +48,18 @@ public class Cart extends AppCompatActivity {
 
         //firebase
 
-        database=FirebaseDatabase.getInstance();
-        requests=database.getReference("Requests");
+        database = FirebaseDatabase.getInstance();
+        requests = database.getReference("Requests");
 
 
         //init
-        recyclerView=(RecyclerView)findViewById(R.id.listCart);
+        recyclerView = (RecyclerView) findViewById(R.id.listCart);
         recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        txtTottalPrice=(TextView)findViewById(R.id.total);
-        btnPlace= (Button)findViewById(R.id.btnPlaceOrder);
+        txtTottalPrice = (TextView) findViewById(R.id.total);
+        btnPlace = (Button) findViewById(R.id.btnPlaceOrder);
 
 
         btnPlace.setOnClickListener(new View.OnClickListener() {
@@ -74,14 +73,13 @@ public class Cart extends AppCompatActivity {
 //        loadListProduit();
     }
 
-    private void showAlertDialog()
-    {
-        AlertDialog.Builder alertDialog=new AlertDialog.Builder(Cart.this);
+    private void showAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
         alertDialog.setTitle("Addresse Residence !");
         alertDialog.setMessage(" Saisir votre Adresse");
 
-        final EditText edtAddress=new EditText(Cart.this);
-        LinearLayout.LayoutParams lp= new LinearLayout.LayoutParams(
+        final EditText edtAddress = new EditText(Cart.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
         );
@@ -92,7 +90,7 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // crrer a new request
-                Request request=new Request(
+                Request request = new Request(
                         Common.currentUser.getLogin(),
                         edtAddress.getText().toString(),
                         txtTottalPrice.getText().toString(),
@@ -125,24 +123,21 @@ public class Cart extends AppCompatActivity {
     }
 
 
-    private void loadListProduit()
-    {
-        carte=new Database(this).getCarts();
-        adapter= new CartAdapter(carte,this);
+    private void loadListProduit() {
+        carte = new Database(this).getCarts();
+        adapter = new CartAdapter(carte, this);
         recyclerView.setAdapter(adapter);
 
         //calcul total prix
 
-        int total= 0;
-        for (Order order:carte)
+        int total = 0;
+        for (Order order : carte)
 
-            total+=(Integer.parseInt(order.getPrix())*Integer.parseInt(order.getQuantity()));
+            total += (Integer.parseInt(order.getPrix()) * Integer.parseInt(order.getQuantity()));
 
-        Locale locale=new Locale("en","US");
-        NumberFormat fmt=NumberFormat.getCurrencyInstance(locale);
+        Locale locale = new Locale("en", "US");
+        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
         txtTottalPrice.setText((fmt.format(total)));
-
-
 
 
     }
